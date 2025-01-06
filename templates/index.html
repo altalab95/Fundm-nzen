@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='main.css') }}"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/three@0.142.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.142.0/examples/js/loaders/PLYLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.142.0/examples/js/controls/OrbitControls.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="step" id="step-1">
+        <h1>Folder hochladen</h1>
+        <div class="form-group">
+          <label for="folderInput">Wählen Sie ein Folder mit Münzdaten aus:</label>
+          <input
+            type="file"
+            name="folderInput"
+            id="folderInput"
+            webkitdirectory
+            multiple
+          />
+        </div>
+        <div class="form-group-btns">
+          <button type="button" class="next-btn" onclick="uploadFolder()">
+            Nächste Seite
+          </button>
+        </div>
+      </div>
+      <div class="step" id="step-2">
+        <h1>Auswahl einer Katalog-Nummer</h1>
+
+        <div class="form-group">
+          <label for="kenomList">Wählen Sie eine Katalog-Nummer aus</label>
+          <select name="methodSelect" id="kenomList">
+
+          </select>
+        </div>
+        <div id="selectedimage">
+          <div id="noramlimage"></div>
+          <div id="albeldoimage"></div>
+        </div>
+
+        <div class="form-group-btns-twice">
+          <button type="button" class="prev-btn">Letzte Seite</button>
+          <button type="button" class="next-btn" onclick="previewGrayscale()">
+            Nächste Seite
+          </button>
+        </div>
+      </div>
+
+      <div class="step" id="step-10">
+        <h1>Das Bild in Mesh.ply</h1>
+
+
+          <div id="plyContainer" style="width: 800px; height: 600px;"></div>
+
+
+        <div class="form-group-btns-twice">
+          <button type="button" class="prev-btn">Letzte Seite</button>
+          <button type="button" class="next-btn" onclick="clearply()">
+            Nächste Seite
+          </button>
+        </div>
+      </div>
+      <div class="step" id="step-3">
+        <h1>Auswahl einer Grauwertbilder Methode</h1>
+
+        <div class="form-group">
+          <label for="Grayscalemethods">Wählen Sie eine Grauwertbilder Methode aus</label>
+          <select name="Grayscalemethods" id="Grayscalemethods">
+            <option value="Weighted Average">Weighted Average</option>
+            <option value="Average">Average</option>
+            <option value="Lightness">Lightness</option>
+            <option value="Luminosity">Luminosity</option>
+            <option value="Inverted ">Inverted</option>
+          </select>
+        </div>
+
+        <div class="form-group-btns-twice">
+          <button type="button" class="prev-btn">Letzte Seite</button>
+          <button type="button" class="next-btn">Nächste Seite</button>
+        </div>
+      </div>
+      <div class="step" id="step-444">
+        
+
+        <div id="grayscalePreview"></div>
+
+        <div class="form-group-btns-twice">
+          <button type="button" class="prev-btn">Letzte Seite</button>
+          <button type="button" class="next-btn">Nächste Seite</button>
+        </div>
+      </div>
+      <div class="step" id="step-4">
+        <h1>Auswahl einer Feature</h1>
+
+        <div class="form-group">
+          <label for="featureSelect">Wählen Sie ein Feture aus</label>
+          <select name="featureSelect" id="featureSelect">
+            <option value="viridis">viridis</option>
+            <option value="hot">hot</option>
+            <option value="inferno">inferno</option>
+
+          </select>
+        </div>
+
+        <div class="form-group-btns-twice">
+          <button type="button" class="prev-btn">Letzte Seite</button>
+          <button type="button" class="next-btn" onclick="extractfeaters()" >Nächste Seite</button>
+        </div>
+      </div>
+
+
+      <div class="step" id="step-44">
+        <h1>Feature Anzeige</h1>
+
+        <div id="featureshape"></div>
+
+        <div id="featerimage"></div>
+
+        <div class="form-group-btns-twice">
+          <button type="button" class="prev-btn">Letzte Seite</button>
+          <button type="button" class="next-btn">Nächste Seite</button>
+        </div>
+      </div>
+      <div class="step" id="step-5">
+        <h1>Auswahl einer Merkmalsuchende Methode</h1>
+
+        <div class="form-group">
+          <label for="comparisonSelect">Wählen Sie eine Merkmalsuchender Methode aus, zum Vergleich mit anderen Münzen</label>
+          <select name="comparisonSelect" id="comparisonSelect">
+            <option value="ORB">ORB</option>
+            <option value="BRISK">BRISK</option>
+            <option value="BRIEF">BRIEF</option>
+          </select>
+        </div>
+
+        <div class="form-group-btns-twice">
+          <button type="button" class="prev-btn">Letzte Seite</button>
+          <button type="button" class="next-btn" onclick="fetchcomapare()">Nächste Seite</button>
+        </div>
+      </div>
+   <div class="step" id="step-555">
+        <h1>Visualisierung </h1>
+
+              <div id="resultimg"></div>
+
+
+        <div class="form-group-btns-twice">
+          <button type="button" class="prev-btn">Letzte Seite</button>
+          <button type="button" class="next-btn" >Nächste Seite</button>
+        </div>
+      </div>
+      <div class="step" id="step-6">
+        <h1>Vergleich Ergebnisse</h1>
+
+        <table id="resultsTable">
+          <thead>
+            <tr>
+              <th></th>
+
+              <th id="catimg1"></th>
+              <th id="catimg2"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="srcimg"></td>
+              <td>0</td>
+              <td id="distance"></td>
+            </tr>
+            <tr>
+              <td id="nearimg"></td>
+              <td id="distance2"></td>
+              <td>0</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="form-group-btns-twice">
+          <button type="button" class="prev-btn">Letzte Seite</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="loader" id="loader"></div>
+
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+  </body>
+</html>
