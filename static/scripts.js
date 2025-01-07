@@ -286,6 +286,32 @@ function displayfeaturedata(data) {
   imgContainer.appendChild(imgElement);
   selectedImageDiv.appendChild(imgContainer);
 }
+
+
+async function finishProcess() {
+    try {
+        // Send a POST request to the /api/clear_folders endpoint
+        const response = await fetch('/api/clear_folders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        // Check if the request was successful
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message); // Log the success message
+            alert('All folders cleared successfully!'); // Notify the user
+        } else {
+            console.error('Failed to clear folders:', response.statusText);
+            alert('Failed to clear folders. Please try again.'); // Notify the user of failure
+        }
+    } catch (error) {
+        console.error('Error clearing folders:', error);
+        alert('An error occurred while clearing folders.'); // Notify the user of an error
+    }
+}
 document.addEventListener("DOMContentLoaded", function () {
   const steps = document.querySelectorAll(".step");
   const nextBtns = document.querySelectorAll(".next-btn");
