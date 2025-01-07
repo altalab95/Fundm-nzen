@@ -48,26 +48,13 @@
 
         <div class="form-group-btns-twice">
           <button type="button" class="prev-btn">Letzte Seite</button>
-          <button type="button" class="next-btn" onclick="previewGrayscale()">
+          <button type="button" class="next-btn" >
             Nächste Seite
           </button>
         </div>
       </div>
 
-      <div class="step" id="step-10">
-        <h1>Das Bild in Mesh.ply</h1>
 
-
-          <div id="plyContainer" style="width: 800px; height: 600px;"></div>
-
-
-        <div class="form-group-btns-twice">
-          <button type="button" class="prev-btn">Letzte Seite</button>
-          <button type="button" class="next-btn" onclick="clearply()">
-            Nächste Seite
-          </button>
-        </div>
-      </div>
       <div class="step" id="step-3">
         <h1>Auswahl einer Grauwertbilder Methode</h1>
 
@@ -78,13 +65,13 @@
             <option value="Average">Average</option>
             <option value="Lightness">Lightness</option>
             <option value="Luminosity">Luminosity</option>
-            <option value="Inverted ">Inverted</option>
+            <option value="Inverted">Inverted</option>
           </select>
         </div>
 
         <div class="form-group-btns-twice">
           <button type="button" class="prev-btn">Letzte Seite</button>
-          <button type="button" class="next-btn">Nächste Seite</button>
+          <button type="button" class="next-btn" onclick="previewGrayscale()" >Nächste Seite</button>
         </div>
       </div>
       <div class="step" id="step-444">
@@ -97,38 +84,8 @@
           <button type="button" class="next-btn">Nächste Seite</button>
         </div>
       </div>
-      <div class="step" id="step-4">
-        <h1>Auswahl einer Feature</h1>
-
-        <div class="form-group">
-          <label for="featureSelect">Wählen Sie ein Feture aus</label>
-          <select name="featureSelect" id="featureSelect">
-            <option value="viridis">viridis</option>
-            <option value="hot">hot</option>
-            <option value="inferno">inferno</option>
-
-          </select>
-        </div>
-
-        <div class="form-group-btns-twice">
-          <button type="button" class="prev-btn">Letzte Seite</button>
-          <button type="button" class="next-btn" onclick="extractfeaters()" >Nächste Seite</button>
-        </div>
-      </div>
 
 
-      <div class="step" id="step-44">
-        <h1>Feature Anzeige</h1>
-
-        <div id="featureshape"></div>
-
-        <div id="featerimage"></div>
-
-        <div class="form-group-btns-twice">
-          <button type="button" class="prev-btn">Letzte Seite</button>
-          <button type="button" class="next-btn">Nächste Seite</button>
-        </div>
-      </div>
       <div class="step" id="step-5">
         <h1>Auswahl einer Merkmalsuchende Methode</h1>
 
@@ -185,6 +142,8 @@
 
         <div class="form-group-btns-twice">
           <button type="button" class="prev-btn">Letzte Seite</button>
+          <button type="button" class="next-btn" onclick="finishProcess()" >Prozess beenden</button>
+
         </div>
       </div>
     </div>
