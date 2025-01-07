@@ -15,6 +15,7 @@ from matplotlib import pyplot as plt
 
 from functions import read_features, image_to_base64_blob, convert_tif_to_jpg, find_nearest_image
 from utils import grayscale_directory, clahe_directory, circle_crop_directory, apply_denoise
+import shutil
 
 app = Flask(__name__)
 
@@ -135,7 +136,7 @@ def preview_grayscale():
     # Decode the base64 image
     image_data = image_data.split(",")[1]  # Remove the prefix
     image_bytes = base64.b64decode(image_data)
-    img = Image.open(io.BytesIO(image_bytes))
+    img = Image.open(io.BytesIO(image_bytes)).convert('RGB')
 
     # Apply the selected grayscale method
     if method == 'Weighted Average':
@@ -163,22 +164,7 @@ def preview_grayscale():
     encoded_string = base64.b64encode(img_byte_arr.read()).decode('utf-8')
     blob_url = f"data:image/png;base64,{encoded_string}"
     return jsonify({'preview_url': blob_url })
-@app.route('/extractfeature/<colormap>', methods=['GET'])
-def extractfeatre(colormap):
-    ply_file_path = Path("images/" + data_selected['mesh'])
-    features = read_features(ply_file_path)
-    output_dir = Path("features")
-    output_dir.mkdir(exist_ok=True)
-    output_image_path = output_dir / "feature_visualization.png"
 
-    plt.imshow(features[:, :, 0], cmap=colormap)
-    plt.colorbar()
-    plt.title("Visualization of the  feature ")
-    plt.savefig(output_image_path)
-    plt.close()
-    image_base64 = image_to_base64_blob(output_image_path)
-    # Return the image
-    return jsonify({'features': features.shape, 'image': image_base64})
 
 @app.route('/comparefeatures', methods=['GET'])
 def comparefeatures():
@@ -207,6 +193,23 @@ def comparefeatures():
 
     # Return the image
     return jsonify({'srcimg':  srfile , 'nearimg' :  nearest_image  , 'distance'  :  nearest_distance  , 'image' : image_base64 })
+
+
+@app.route('/api/clear_folders', methods=['POST'])
+def clear_folders():
+    # List of directories to remove
+    directories_to_remove = [image_dir, IMAGE_FOLDER, target_directory, exp1, exp2, exp3, exp4, exp5]
+
+    for directory in directories_to_remove:
+        if os.path.exists(directory):
+            try:
+                # Remove the directory and its contents
+                shutil.rmtree(directory)
+                print(f"Successfully removed directory: {directory}")
+            except Exception as e:
+                print(f'Failed to remove {directory}. Reason: {e}')
+
+    return jsonify({"message": "All folders and their contents removed successfully"})
 
 if __name__ == '__main__':
     app.run(debug=True)
